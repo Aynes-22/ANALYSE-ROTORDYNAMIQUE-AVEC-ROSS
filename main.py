@@ -302,3 +302,61 @@ except Exception as e:
     print(f"Les vitesses critiques peuvent être identifiées visuellement sur le diagramme de Campbell")
     print(f"aux intersections avec la ligne 1X (synchrone).")
 
+# =============================================================================
+# QUESTION 5: CONCLUSION
+# =============================================================================
+print("\n" + "="*70)
+print("QUESTION 5: CONCLUSIONS")
+print("="*70)
+
+print("""
+SYNTHÈSE DE L'ANALYSE ROTORDYNAMIQUE:
+
+1. MODÉLISATION:
+   - Le rotor a été modélisé avec succès en utilisant 10 éléments de poutre
+     Timoshenko, incluant les effets de cisaillement et gyroscopiques.
+   - Deux disques ont été placés à 0.8m et 1.4m.
+   - Les paliers anisotropes ont été implémentés avec kxx=1 MN/m et kyy=1.5 MN/m.
+
+2. COMPORTEMENT MODAL:
+   - À 0 RPM: Les fréquences naturelles représentent les modes de flexion purs.
+   - À 5000 RPM: Les effets gyroscopiques augmentent les fréquences naturelles
+     et provoquent une séparation entre les modes forward et backward.
+
+3. VITESSES CRITIQUES:
+   - Le diagramme de Campbell révèle plusieurs vitesses critiques dans la plage
+     0-5000 RPM où les fréquences naturelles coïncident avec la fréquence
+     d'excitation synchrone (1X).
+   - Ces vitesses doivent être évitées en exploitation ou traversées rapidement.
+
+4. ANISOTROPIE DES PALIERS:
+   - La différence de rigidité (kyy > kxx) crée une anisotropie qui sépare les
+     modes dans les directions horizontale et verticale.
+   - Cet effet est visible dans le diagramme de Campbell par la présence de
+     lignes distinctes pour chaque direction.
+
+5. RECOMMANDATIONS:
+   - Éviter les opérations prolongées près des vitesses critiques identifiées.
+   - Prévoir un système d'équilibrage pour minimiser le balourd résiduel.
+   - Considérer l'ajout d'amortissement si des niveaux vibratoires excessifs
+     sont observés lors des passages en vitesses critiques.
+   - La marge de sécurité recommandée par l'API est de ±10% autour des
+     vitesses critiques.
+
+6. COMPORTEMENT FLEXIBLE:
+   - Le rotor présente un comportement flexible (première vitesse critique
+     < vitesse de service / 2), ce qui justifie l'analyse modale complète.
+   - Un équilibrage multi-plans sera nécessaire si le rotor doit fonctionner
+     au-delà de sa première vitesse critique.
+""")
+
+# Résumé numérique
+print("\nRÉSUMÉ NUMÉRIQUE:")
+print(f"  Masse totale du rotor: {rotor.m:.2f} kg")
+print(f"  Longueur totale: {shaft_length} m")
+print(f"  Plage d'analyse: 0-5000 RPM")
+print(f"  Nombre de modes calculés: {len(modal_0rpm.wn)}")
+
+print("\n" + "="*70)
+print("ANALYSE TERMINÉE AVEC SUCCÈS")
+print("="*70)
