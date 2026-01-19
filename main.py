@@ -227,3 +227,33 @@ fig3.update_layout(
     height=500
 )
 fig3.show()
+
+# =============================================================================
+# QUESTION 3: DYNAMIQUE À 0 ET 5000 RPM
+# =============================================================================
+
+print("\n" + "="*70)
+print("QUESTION 3: ANALYSE DYNAMIQUE À 0 ET 5000 RPM")
+print("="*70)
+
+# À 0 RPM
+modal_0rpm = rotor.run_modal(speed=0)
+print("\nÀ 0 RPM:")
+print(f"  1ère fréquence naturelle: {modal_0rpm.wn[0]/(2*np.pi):.2f} Hz")
+print(f"  2ème fréquence naturelle: {modal_0rpm.wn[1]/(2*np.pi):.2f} Hz")
+print(f"  Effets gyroscopiques: Aucun (vitesse nulle)")
+
+# À 5000 RPM
+speed_5000_rad = 5000 * 2 * np.pi / 60
+modal_5000rpm = rotor.run_modal(speed=speed_5000_rad)
+print("\nÀ 5000 RPM:")
+print(f"  1ère fréquence naturelle: {modal_5000rpm.wn[0]/(2*np.pi):.2f} Hz")
+print(f"  2ème fréquence naturelle: {modal_5000rpm.wn[1]/(2*np.pi):.2f} Hz")
+print(f"  Effets gyroscopiques: Présents (séparation des modes)")
+
+# Comparaison
+delta_f1 = modal_5000rpm.wn[0]/(2*np.pi) - modal_0rpm.wn[0]/(2*np.pi)
+delta_f2 = modal_5000rpm.wn[1]/(2*np.pi) - modal_0rpm.wn[1]/(2*np.pi)
+print(f"\nVariation des fréquences:")
+print(f"  Mode 1: {delta_f1:+.2f} Hz")
+print(f"  Mode 2: {delta_f2:+.2f} Hz")
