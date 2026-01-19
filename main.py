@@ -185,3 +185,45 @@ fig1.update_layout(
     height=600     # CORRECTION: en pixels (entier)
 )
 fig1.show()
+
+# =============================================================================
+# QUESTION 2: FRÉQUENCES NATURELLES ET MODES PROPRES (0-5000 RPM)
+# =============================================================================
+print("\n" + "="*70)
+print("QUESTION 2: ANALYSE MODALE")
+print("="*70)
+
+# Analyse modale à différentes vitesses
+speeds = [0, 1000, 2500, 5000]  # rpm
+
+for speed_rpm in speeds:
+    speed_rad_s = speed_rpm * 2 * np.pi / 60
+    
+    modal = rotor.run_modal(speed=speed_rad_s)
+    
+    print(f"\n--- Vitesse: {speed_rpm} RPM ---")
+    print(f"Fréquences naturelles (Hz):")
+    for i, (wd, wn) in enumerate(zip(modal.wd[:6], modal.wn[:6])):
+        print(f"  Mode {i+1}: wd = {wd/(2*np.pi):.2f} Hz, wn = {wn/(2*np.pi):.2f} Hz")
+        
+# Visualisation des modes propres à 0 RPM
+print("\nGénération des formes modales à 0 RPM...")
+modal_0 = rotor.run_modal(speed=0)
+
+# Premier mode (Mode 0)
+fig2 = modal_0.plot_mode_2d(mode=0)
+fig2.update_layout(
+    title="Premier Mode Propre (0 RPM)",
+    width=1000,
+    height=500
+)
+fig2.show()
+
+# Deuxième mode (Mode 1)
+fig3 = modal_0.plot_mode_2d(mode=1)
+fig3.update_layout(
+    title="Deuxième Mode Propre (0 RPM)",
+    width=1000,
+    height=500
+)
+fig3.show()
