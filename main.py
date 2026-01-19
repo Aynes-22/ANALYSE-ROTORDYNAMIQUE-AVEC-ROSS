@@ -33,3 +33,25 @@ print(f"Diamètre de l'arbre: {shaft_diameter*1000} mm")
 print(f"Nombre d'éléments: {n_elements}")
 print(f"Longueur d'un élément: {element_length} m")
 print(f"Matériau: {steel.name}, E={steel.E/1e9} GPa, G={steel.G_s/1e9} GPa")
+
+# =============================================================================
+# ÉTAPE 2: CRÉATION DES ÉLÉMENTS D'ARBRE (SHAFT ELEMENTS)
+# =============================================================================
+
+shaft_elements = []
+for i in range(n_elements):
+    shaft = rs.ShaftElement(
+        L=element_length,
+        idl=0,                    # Diamètre intérieur gauche (arbre plein)
+        odl=shaft_diameter,       # Diamètre extérieur gauche
+        idr=0,                    # Diamètre intérieur droit
+        odr=shaft_diameter,       # Diamètre extérieur droit
+        material=steel,
+        shear_effects=True,       # Effets de cisaillement (Timoshenko)
+        rotary_inertia=True,      # Inertie de rotation
+        gyroscopic=True,          # Effets gyroscopiques
+        n=i                       # Numéro du nœud gauche
+    )
+    shaft_elements.append(shaft)
+
+print(f"\n{n_elements} éléments d'arbre créés avec succès")
