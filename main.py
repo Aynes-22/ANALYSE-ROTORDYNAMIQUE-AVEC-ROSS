@@ -151,3 +151,22 @@ print(f"  kyy (vertical): {kyy/1e6} MN/m")
 print(f"\nPalier droit - Nœud: {n_elements}")
 print(f"  kxx (horizontal): {kxx/1e6} MN/m")
 print(f"  kyy (vertical): {kyy/1e6} MN/m")
+
+# =============================================================================
+# ÉTAPE 5: ASSEMBLAGE DU ROTOR
+# =============================================================================
+
+rotor = rs.Rotor(
+    shaft_elements=shaft_elements,
+    disk_elements=disk_elements,
+    bearing_elements=bearing_elements,
+    tag="Flexible_Rotor_System"
+)
+
+print("\n" + "="*70)
+print("ROTOR ASSEMBLÉ")
+print("="*70)
+print(f"Nombre total de nœuds: {n_elements + 1}")
+print(f"Nombre d'éléments d'arbre: {len(shaft_elements)}")
+print(f"Nombre de disques: {len(disk_elements)}")
+print(f"Nombre de paliers: {len(bearing_elements)}")
