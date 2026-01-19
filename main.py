@@ -170,3 +170,18 @@ print(f"Nombre total de nœuds: {n_elements + 1}")
 print(f"Nombre d'éléments d'arbre: {len(shaft_elements)}")
 print(f"Nombre de disques: {len(disk_elements)}")
 print(f"Nombre de paliers: {len(bearing_elements)}")
+
+# =============================================================================
+# QUESTION 1: DESSINER LE SYSTÈME MODÉLISÉ
+# =============================================================================
+print("\n" + "="*70)
+print("QUESTION 1: VISUALISATION DU SYSTÈME")
+print("="*70)
+
+fig1 = rotor.plot_rotor()
+fig1.update_layout(
+    title="Modèle du Rotor avec Disques et Paliers",
+    width=1200,    # CORRECTION: en pixels (entier)
+    height=600     # CORRECTION: en pixels (entier)
+)
+fig1.show()
