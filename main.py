@@ -55,3 +55,57 @@ for i in range(n_elements):
     shaft_elements.append(shaft)
 
 print(f"\n{n_elements} éléments d'arbre créés avec succès")
+
+# =============================================================================
+# ÉTAPE 3: CRÉATION DES DISQUES
+# =============================================================================
+
+# Disque gauche à 0.8m → nœud 4 (0.8/0.2 = 4)
+disk_left_thickness = 0.07    # m
+disk_left_diameter = 0.30     # m
+disk_left_node = 4
+
+# Calcul des moments d'inertie du disque gauche
+m_left = steel.rho * np.pi * (disk_left_diameter/2)**2 * disk_left_thickness
+Id_left = 0.25 * m_left * (disk_left_diameter/2)**2  # Moment polaire
+Ip_left = 0.5 * m_left * (disk_left_diameter/2)**2   # Moment axial
+
+disk_left = rs.DiskElement(
+    n=disk_left_node,
+    m=m_left,
+    Id=Id_left,
+    Ip=Ip_left,
+    tag="Disk_Left"
+)
+
+# Disque droit à 1.4m → nœud 7 (1.4/0.2 = 7)
+disk_right_thickness = 0.07   # m
+disk_right_diameter = 0.35    # m
+disk_right_node = 7
+
+# Calcul des moments d'inertie du disque droit
+m_right = steel.rho * np.pi * (disk_right_diameter/2)**2 * disk_right_thickness
+Id_right = 0.25 * m_right * (disk_right_diameter/2)**2
+Ip_right = 0.5 * m_right * (disk_right_diameter/2)**2
+
+disk_right = rs.DiskElement(
+    n=disk_right_node,
+    m=m_right,
+    Id=Id_right,
+    Ip=Ip_right,
+    tag="Disk_Right"
+)
+
+disk_elements = [disk_left, disk_right]
+
+print("\n" + "="*70)
+print("DISQUES")
+print("="*70)
+print(f"Disque gauche - Nœud: {disk_left_node}, Position: 0.8m")
+print(f"  Masse: {m_left:.2f} kg")
+print(f"  Diamètre: {disk_left_diameter*1000} mm")
+print(f"  Id: {Id_left:.4f} kg.m², Ip: {Ip_left:.4f} kg.m²")
+print(f"\nDisque droit - Nœud: {disk_right_node}, Position: 1.4m")
+print(f"  Masse: {m_right:.2f} kg")
+print(f"  Diamètre: {disk_right_diameter*1000} mm")
+print(f"  Id: {Id_right:.4f} kg.m², Ip: {Ip_right:.4f} kg.m²")
