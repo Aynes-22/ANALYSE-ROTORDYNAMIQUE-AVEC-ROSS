@@ -109,3 +109,45 @@ print(f"\nDisque droit - Nœud: {disk_right_node}, Position: 1.4m")
 print(f"  Masse: {m_right:.2f} kg")
 print(f"  Diamètre: {disk_right_diameter*1000} mm")
 print(f"  Id: {Id_right:.4f} kg.m², Ip: {Ip_right:.4f} kg.m²")
+
+# =============================================================================
+# ÉTAPE 4: CRÉATION DES PALIERS ANISOTROPES
+# =============================================================================
+
+# Rigidités des paliers
+kxx = 1e6       # N/m (horizontal)
+kyy = 1.5e6     # N/m (vertical)
+cxx = 0         # Pas d'amortissement spécifié
+cyy = 0
+
+# Palier gauche (nœud 0)
+bearing_left = rs.BearingElement(
+    n=0,
+    kxx=kxx,
+    kyy=kyy,
+    cxx=cxx,
+    cyy=cyy,
+    tag="Bearing_Left"
+)
+
+# Palier droit (nœud 10)
+bearing_right = rs.BearingElement(
+    n=n_elements,  # Dernier nœud
+    kxx=kxx,
+    kyy=kyy,
+    cxx=cxx,
+    cyy=cyy,
+    tag="Bearing_Right"
+)
+
+bearing_elements = [bearing_left, bearing_right]
+
+print("\n" + "="*70)
+print("PALIERS ANISOTROPES")
+print("="*70)
+print(f"Palier gauche - Nœud: 0")
+print(f"  kxx (horizontal): {kxx/1e6} MN/m")
+print(f"  kyy (vertical): {kyy/1e6} MN/m")
+print(f"\nPalier droit - Nœud: {n_elements}")
+print(f"  kxx (horizontal): {kxx/1e6} MN/m")
+print(f"  kyy (vertical): {kyy/1e6} MN/m")
