@@ -257,3 +257,48 @@ delta_f2 = modal_5000rpm.wn[1]/(2*np.pi) - modal_0rpm.wn[1]/(2*np.pi)
 print(f"\nVariation des fréquences:")
 print(f"  Mode 1: {delta_f1:+.2f} Hz")
 print(f"  Mode 2: {delta_f2:+.2f} Hz")
+
+# =============================================================================
+# QUESTION 4: DIAGRAMME DE CAMPBELL
+# =============================================================================
+print("\n" + "="*70)
+print("QUESTION 4: DIAGRAMME DE CAMPBELL")
+print("="*70)
+
+# Plage de vitesses de 0 à 5500 rpm
+speed_range = np.linspace(0, 5500, 100)  # rpm
+speed_range_rad = speed_range * 2 * np.pi / 60  # rad/s
+
+# Calcul du diagramme de Campbell
+campbell = rotor.run_campbell(speed_range=speed_range_rad)
+
+# Visualisation
+fig4 = campbell.plot()
+fig4.update_layout(
+    title="Diagramme de Campbell (0-5500 RPM)",
+    xaxis_title="Vitesse de rotation (RPM)",
+    yaxis_title="Fréquence (Hz)",
+    width=1200,
+    height=800
+)
+fig4.show()
+
+# Analyse des vitesses critiques
+print("\nIdentification des vitesses critiques:")
+print("Les vitesses critiques apparaissent aux intersections entre les")
+print("fréquences naturelles et la ligne de synchronisation (1X).")
+
+# Calcul des vitesses critiques
+try:
+    critical_speeds = rotor.run_critical_speed(speed_range=speed_range_rad)
+    print(f"\nVitesses critiques détectées:")
+    for i, (speed, wd) in enumerate(zip(critical_speeds.wn, critical_speeds.wd)):
+        speed_rpm = speed * 60 / (2 * np.pi)
+        freq_hz = wd / (2 * np.pi)
+        if speed_rpm <= 5000:
+            print(f"  Critique {i+1}: {speed_rpm:.1f} RPM (fréquence: {freq_hz:.1f} Hz)")
+except Exception as e:
+    print(f"\nNote: Calcul automatique des vitesses critiques non disponible.")
+    print(f"Les vitesses critiques peuvent être identifiées visuellement sur le diagramme de Campbell")
+    print(f"aux intersections avec la ligne 1X (synchrone).")
+
