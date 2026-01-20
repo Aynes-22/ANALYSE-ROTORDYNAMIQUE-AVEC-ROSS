@@ -33,7 +33,6 @@ Ce rapport présente une analyse rotordynamique complète d'un système d'arbre 
   - Module de Young (E): 210 GPa
   - Module de cisaillement (G): 81 GPa
 - **Discrétisation:** 10 éléments de poutre de Timoshenko
-- **Longueur d'élément:** 0.2 m chacun
 - **Amortissement interne:** Aucun
 
 ### Configuration des Disques
@@ -65,34 +64,18 @@ Cette anisotropie crée une dépendance directionnelle dans la réponse dynamiqu
 
 ## 1. DESSIN DU SYSTÈME MODÉLISÉ
 
-Le modèle par éléments finis du rotor a été créé avec ROSS :
-<img width="1200" height="600" alt="newplot" src="https://github.com/user-attachments/assets/93fdb8b0-5744-41e8-9e54-568f48044d97" />
-
 ### Configuration du Modèle
 - **11 nœuds** numérotés de 0 à 10
-- **10 éléments d'arbre** de longueur égale (0.2 m)
-- **2 éléments disques** positionnés aux nœuds 4 et 7
-- **2 éléments paliers** aux extrémités (nœuds 0 et 10)
+- **10 éléments d'arbre** uniformes
+- **2 éléments disques** positionnés asymétriquement
+- **2 éléments paliers** aux extrémités
 
-### Visualisation du Système
+<img width="1200" height="600" alt="newplot" src="https://github.com/user-attachments/assets/93fdb8b0-5744-41e8-9e54-568f48044d97" />
 
-La représentation graphique du rotor modélisé montre:
+**Figure 1: Visualisation du système rotor avec disques (rouge) et paliers (bleu)**
+***Le modèle par éléments finis du rotor a été créé avec ROSS***
 
-1. **Géométrie:** Un arbre horizontal de 2 mètres avec deux disques positionnés asymétriquement
-2. **Localisation des disques:** 
-   - Disque gauche à 0.8 m (40% de la longueur totale)
-   - Disque droit à 1.4 m (70% de la longueur totale)
-3. **Conditions d'appui:** Configuration simplement appuyée avec paliers aux deux extrémités
-4. **Système de coordonnées:** Directions horizontale (X) et verticale (Y) clairement définies
-
-### Caractéristiques du Modèle de Timoshenko
-
-Le modèle utilise la théorie de poutre de Timoshenko qui prend en compte:
-- **Déformation de cisaillement** (importante pour les poutres courtes/épaisses)
-- **Inertie de rotation** des sections transversales de l'arbre
-- **Effets gyroscopiques** dus à la rotation des disques
-
-**Observation clé:** Le placement asymétrique des disques crée une distribution de masse déséquilibrée qui influencera les formes modales et les vitesses critiques.
+Le modèle de Timoshenko inclut les effets de cisaillement, l'inertie de rotation et les effets gyroscopiques. Le placement asymétrique des disques (40% et 70% de la longueur) influence les formes modales.
 
 ---
 
@@ -102,41 +85,23 @@ Le modèle utilise la théorie de poutre de Timoshenko qui prend en compte:
 
 Les fréquences naturelles ont été calculées à quatre vitesses de rotation différentes:
 
-#### **À 0 RPM (Condition statique):**
-**Fréquences naturelles (Hz):**
-  Mode 1: wd = 9.57 Hz, wn = 9.57 Hz
-  Mode 2: wd = 9.93 Hz, wn = 9.93 Hz
-  Mode 3: wd = 34.74 Hz, wn = 34.74 Hz
-  Mode 4: wd = 37.42 Hz, wn = 37.42 Hz
-  Mode 5: wd = 85.91 Hz, wn = 85.91 Hz
-  Mode 6: wd = 87.97 Hz, wn = 87.97 Hz
+| Vitesse | Mode 1 | Mode 2 | Mode 3 | Mode 4 | Mode 5 | Mode 6 |
+|---------|--------|--------|--------|--------|--------|--------|
+| **0 RPM** | 9.57 Hz | 9.93 Hz | 34.74 Hz | 37.42 Hz | 85.91 Hz | 87.97 Hz |
+| **1000 RPM** | 9.56 Hz | 9.93 Hz | 34.66 Hz | 37.49 Hz | 85.91 Hz | 87.46 Hz |
+| **2500 RPM** | 9.53 Hz | 9.96 Hz | 34.28 Hz | 37.82 Hz | 85.03 Hz | 85.91 Hz |
+| **5000 RPM** | 9.43 Hz | 10.04 Hz | 33.28 Hz | 38.63 Hz | 78.40 Hz | 85.91 Hz |
 
-#### **À 1000 RPM:**
-**Fréquences naturelles (Hz):**
-  Mode 1: wd = 9.56 Hz, wn = 9.56 Hz
-  Mode 2: wd = 9.93 Hz, wn = 9.93 Hz
-  Mode 3: wd = 34.66 Hz, wn = 34.66 Hz
-  Mode 4: wd = 37.49 Hz, wn = 37.49 Hz
-  Mode 5: wd = 85.91 Hz, wn = 85.91 Hz
-  Mode 6: wd = 87.46 Hz, wn = 87.46 Hz
+### Observations
 
-#### **À 2500 RPM:**
-**Fréquences naturelles (Hz):**
-  Mode 1: wd = 9.53 Hz, wn = 9.53 Hz
-  Mode 2: wd = 9.96 Hz, wn = 9.96 Hz
-  Mode 3: wd = 34.28 Hz, wn = 34.28 Hz
-  Mode 4: wd = 37.82 Hz, wn = 37.82 Hz
-  Mode 5: wd = 85.03 Hz, wn = 85.03 Hz
-  Mode 6: wd = 85.91 Hz, wn = 85.91 Hz
+**À 0 RPM:** Les modes se présentent par paires proches (9.57/9.93 Hz, 34.74/37.42 Hz, 85.91/87.97 Hz) en raison de l'anisotropie des paliers (kxx ≠ kyy). Chaque paire correspond aux modes horizontal et vertical d'une même forme de flexion.
 
-#### **À 5000 RPM:**
-**Fréquences naturelles (Hz):**
-  Mode 1: wd = 9.43 Hz, wn = 9.43 Hz
-  Mode 2: wd = 10.04 Hz, wn = 10.04 Hz
-  Mode 3: wd = 33.28 Hz, wn = 33.28 Hz
-  Mode 4: wd = 38.63 Hz, wn = 38.63 Hz
-  Mode 5: wd = 78.40 Hz, wn = 78.40 Hz
-  Mode 6: wd = 85.91 Hz, wn = 85.91 Hz
+**Évolution avec la vitesse:** 
+- Les modes 1-2 (premiers modes de flexion) montrent une séparation croissante: l'écart passe de 0.36 Hz (0 RPM) à 0.61 Hz (5000 RPM)
+- Les modes 3-4 montrent également une séparation accrue: de 2.68 Hz à 5.35 Hz
+- Les modes 5-6 convergent avec la vitesse: écart de 2.06 Hz à 0 RPM, réduction significative à 5000 RPM
+
+Cette séparation croissante illustre le **couplage gyroscopique** qui différencie les modes forward et backward.
 
 ---
 
@@ -144,26 +109,93 @@ Les fréquences naturelles ont été calculées à quatre vitesses de rotation d
 
 ### 3.1 Comparaison entre 0 RPM et 5000 RPM
 
-#### **À 0 RPM (Condition non-rotative):**
-1ère fréquence naturelle: 9.57 Hz
-2ème fréquence naturelle: 9.93 Hz
-Effets gyroscopiques: Aucun (vitesse nulle)
+**À 0 RPM (statique):**
+- 1ère fréquence: **9.57 Hz**
+- 2ème fréquence: **9.93 Hz**
+- Modes de flexion purs, pas de couplage gyroscopique
 
-#### **À 5000 RPM (Condition opérationnelle):**
-1ère fréquence naturelle: 9.43 Hz
-2ème fréquence naturelle: 10.04 Hz
-Effets gyroscopiques: Présents (séparation des modes)
+**À 5000 RPM (opérationnel):**
+- 1ère fréquence: **9.43 Hz** (variation: **-0.14 Hz**)
+- 2ème fréquence: **10.04 Hz** (variation: **+0.12 Hz**)
+- Effets gyroscopiques présents avec séparation des modes
 
-### 3.2 Variation des Fréquences
-Mode 1: -0.14 Hz
-Mode 2: +0.12 Hz
+### Interprétation Physique
+
+**Mode 1 (diminution):** Le mode backward voit sa fréquence diminuer avec la vitesse. L'effet gyroscopique crée un "ramollissement" pour la précession rétrograde.
+
+**Mode 2 (augmentation):** Le mode forward voit sa fréquence augmenter. L'effet gyroscopique rigidifie le système pour la précession directe.
+
+**Anisotropie des paliers:** La différence kxx < kyy crée deux fréquences distinctes pour chaque forme modale, visible même à 0 RPM. À haute vitesse, les effets gyroscopiques amplifient cette séparation.
+
+Le moment gyroscopique **M = Ip × Ω × ω** couple les directions orthogonales. Pour ce système avec deux disques significatifs (Ip totale ≈ 0.92 kg·m²), l'effet est mesurable mais modéré dans la plage 0-5000 RPM.
 
 ---
 
 ## 4. DIAGRAMME DE CAMPBELL ET EXPLICATION
 
-### 4.1 Description du Diagramme de Campbell
+![Diagramme de Campbell](https://github.com/user-attachments/assets/6f3c57a8-9d15-458f-91c5-62cef7b3f296)
 
-Le diagramme de Campbell trace les fréquences naturelles (Hz) en fonction de la vitesse de rotation (RPM) sur la plage 0-5500 RPM. Il constitue un outil fondamental en rotordynamique pour identifier les vitesses critiques.
-<img width="1200" height="800" alt="newplot (1)" src="https://github.com/user-attachments/assets/6f3c57a8-9d15-458f-91c5-62cef7b3f296" />
+**Figure 2:** Diagramme de Campbell (0-5500 RPM)
 
+### Éléments du Diagramme
+
+**Courbes observées:**
+- **Modes forward (triangles):** Légère augmentation avec la vitesse (effet de rigidification gyroscopique)
+- **Modes backward (triangles inversés):** Légère diminution avec la vitesse
+- **Ligne 1X (bleue):** Fréquence d'excitation synchrone (balourd)
+- **Points critiques (×):** Intersections indiquant les vitesses critiques
+
+### Identification des Vitesses Critiques
+
+D'après le diagramme, **deux vitesses critiques** principales sont visibles dans la plage 0-5000 RPM:
+
+1. **1ère vitesse critique:** ~**570-600 RPM** (~9.5-10 Hz)
+   - Intersection entre le premier mode forward et la ligne 1X
+   - Correspond au premier mode de flexion
+
+2. **2ème vitesse critique:** ~**2100-2250 RPM** (~35-37.5 Hz)
+   - Intersection entre le deuxième mode forward et la ligne 1X
+   - Correspond au deuxième mode de flexion
+
+### Comportement Gyroscopique
+
+Les courbes montrent:
+- **Séparation modérée** entre forward et backward (système à moments d'inertie intermédiaires)
+- **Stabilité générale** des fréquences (variations < 10% dans la plage analysée)
+- **Effets anisotropes** visibles par le dédoublement de chaque famille modale
+
+Les modes de haute fréquence (>80 Hz) restent quasiment constants car les effets gyroscopiques sont proportionnellement plus faibles.
+
+---
+
+## 5. CONCLUSIONS
+
+### Résultats Principaux
+
+1. **Modélisation:** Le système rotor-paliers a été modélisé avec succès via 10 éléments de Timoshenko incluant cisaillement, inertie rotationnelle et gyroscopie.
+
+2. **Anisotropie dominante:** L'anisotropie des paliers (kyy = 1.5 × kxx) crée un dédoublement systématique des modes (horizontal/vertical) plus marqué que les effets gyroscopiques dans cette plage de vitesse.
+
+3. **Vitesses critiques identifiées:**
+   - **~600 RPM** (1er mode, ~9.5-10 Hz)
+   - **~2200 RPM** (2ème mode, ~35-37.5 Hz)
+
+4. **Effets gyroscopiques mesurables:** Variations des fréquences < 2 Hz entre 0 et 5000 RPM. L'effet est réel mais modéré comparé à l'anisotropie.
+
+### Recommandations Opérationnelles
+
+**Zones à éviter (±10% API):**
+- 540-660 RPM autour de la 1ère critique
+- 1980-2420 RPM autour de la 2ème critique
+
+**Stratégies:**
+- Fonctionnement **sous-critique** (< 540 RPM) pour éviter toute résonance
+- Si fonctionnement > 600 RPM: **équilibrage précis** requis (grade G2.5)
+- **Passage rapide** lors de la traversée des critiques au démarrage
+- **Surveillance vibratoire** recommandée pour détecter tout balourd
+
+### Caractérisation du Rotor
+
+Ce rotor est **flexible** (1ère critique à ~600 RPM << 5000 RPM). Un équilibrage multi-plans sera nécessaire pour tout fonctionnement au-delà de 600 RPM.
+
+L'anisotropie des paliers (ratio 1.5:1) domine le comportement dynamique et nécessite une attention particulière lors de l'équilibrage et du diagnostic vibratoire.
