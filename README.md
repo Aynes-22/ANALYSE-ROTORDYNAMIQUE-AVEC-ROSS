@@ -1,4 +1,4 @@
-# Homework 3 - Analyse Rotordynamique avec ROSS
+# Analyse Rotordynamique avec ROSS
 **Module: Dynamique des Machines Tournantes**  
 
 # Projet : Analyse rotordynamique avec ROSS
